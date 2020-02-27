@@ -10,6 +10,7 @@ class BlogIndex extends React.Component {
   render() {
     const siteTitle = get(this, 'props.data.site.siteMetadata.title')
     const posts = get(this, 'props.data.allContentfulBlogPost.edges')
+    const total = this.props.data?.allContentfulBlogPost?.totalCount
 
     return (
       <Layout location={this.props.location} >
@@ -19,7 +20,7 @@ class BlogIndex extends React.Component {
             Blog page
           </div>
           <div className="wrapper">
-            <h2 className="section-headline">Recent 1</h2>
+            <h2 className="section-headline">Most recent 24 of {total} posts</h2>
             <ul className="article-list">
               {posts.map(({ node }) => {
                 return (
@@ -45,7 +46,8 @@ export const pageQuery = graphql`
         title
       }
     }
-    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
+    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }, limit: 24) {
+      totalCount
       edges {
         node {
           title
