@@ -10,12 +10,11 @@ import heroStyles from '../components/hero.module.css'
 class BlogPostTemplate extends React.Component {
   render() {
     const post = this.props.data?.contentfulBlogPost
-    const siteTitle = this.props.data?.site?.siteMetadata?.title
 
     return (
       <Layout location={this.props.location} >
         <div style={{ background: '#fff' }}>
-          <Helmet title={`${post.title} | ${siteTitle}`} />
+          <Helmet title={post.title} />
           <div className={heroStyles.hero}>
             {post.heroImage && <Img className={heroStyles.heroImage} alt={post.title} fluid={post.heroImage.fluid} />}
           </div>
@@ -44,11 +43,6 @@ export default BlogPostTemplate
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
-    site {
-      siteMetadata {
-        title
-      }
-    }
     contentfulBlogPost(slug: { eq: $slug }) {
       title
       publishDate(formatString: "MMMM Do, YYYY")
